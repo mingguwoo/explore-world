@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="GBK"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.woo.explore</groupId>
+        <artifactId>explore-world</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>explore-world-web</artifactId>
+    <packaging>war</packaging>
+    <name>explore-world-web</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.woo.explore</groupId>
+            <artifactId>explore-world-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <!-- 三种不同的环境配置-->
+        <profile>
+            <!-- 开发环境-->
+            <id>development</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!-- 预发环境-->
+            <id>beta</id>
+            <properties>
+                <env>beta</env>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产环境-->
+            <id>production</id>
+            <properties>
+                <env>production</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>explore-world</finalName>
+        <filters>
+            <filter>../filter/${env}.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archiveClasses>false</archiveClasses>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
